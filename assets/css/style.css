@@ -1,0 +1,49 @@
+/**
+    * Basic Portfolio stylesheet
+**/
+
+
+* {
+    box-sizing: border-box;
+          
+       }
+ /** 
+     * body style
+ **/
+ 
+ 
+ body {
+     font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
+     color: darkblue;
+     background-image: url("../images/disney-background.jpg"); 
+     border: #dddddd;
+     width: 1020px; 
+     margin: auto;
+   
+         }
+ 
+ 
+ /** 
+     * Main header style
+ **/
+ 
+ #mainheader {
+     font-family: Verdana, Geneva, Tahoma, sans-serif ;
+    font-size: 80px;
+     text-align: center;
+     color: blue;
+     text-shadow: 15px 15px 20px darkblue;
+     margin-top: 0px;
+        }
+ 
+ .para {
+     line-height: 70%;
+     margin-top:10px;
+ }
+ #disney-form {
+     font-size: 20px;
+ }
+ #imgStyle {
+     width: 250px;
+     height: 250px;
+ }
