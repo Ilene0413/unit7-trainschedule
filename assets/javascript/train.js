@@ -15,7 +15,6 @@ $(document).ready(function () {
         messagingSenderId: "799790801335"
     };
     firebase.initializeApp(config);
-
     // Create a variable to reference the database.
     let database = firebase.database();
 
@@ -41,8 +40,9 @@ $(document).ready(function () {
         track: 0
     };
 
+    // check that all required fields are entered before submit
+
     $("#submit-train").on("click", function (event) {
-        event.preventDefault();
 
         trainName = $("#train-name").val().trim();
         destination = $("#destination").val().trim();
@@ -50,10 +50,12 @@ $(document).ready(function () {
         firstTrain = $("#first-train").val().trim();
         arrTrack = $("#trackNo").val().trim();
 
+
+
         //check to see that first-train is a valid military number between 00:00 - 23:59
         //note max text size of first-train is 5, therefore position 3 should be a :
         let timeTrain = moment(firstTrain, "HH:mm");
-        console.log ("moment " + timeTrain);
+        console.log("moment " + timeTrain);
         let militChar = firstTrain.charAt(2);
         if (militChar !== ":") {
             return;
@@ -64,7 +66,7 @@ $(document).ready(function () {
                 return;
             }
             else {
-                isItMilitary = parseInt(firstTrain.substr(3,2));
+                isItMilitary = parseInt(firstTrain.substr(3, 2));
                 if (isItMilitary < 0 || isItMilitary > 59) {
                     return;
 
@@ -80,10 +82,9 @@ $(document).ready(function () {
         let tRemainder = diffTime % freqInMin;
         console.log("remainder " + tRemainder);
         let minToTrain = freqInMin - tRemainder;
-        console.log ("min to train " + minToTrain);
-        if (moment() < timeOfTrain)
-        let timeOfNextTrain = moment(timeOfTrain).add(minToTrain, "minutes");
-        console.log("time of next train " + moment(timeOfNextTrain).format("hh:mm"));
+        console.log("min to train " + minToTrain);
+        //if (moment(currentTime) < timeOfTrain)
+        //  timeOfNextTrain = moment(timeOfTrain).add(minToTrain, "minutes");
         trainObj.trainName = trainName;
         trainObj.destination = destination;
         trainObj.frequency = freqInMin;
@@ -100,35 +101,33 @@ $(document).ready(function () {
         $("#frequency").val("");
         $("#first-train").val("");
         $("#trackNo").val("");
-
     });
+        database.ref("trains").on("child_added", function (snapshot) {
+            trainName = snapshot.val().trainName;
+            destination = snapshot.val().destination;
+            freqInMin = snapshot.val().frequency;
+            nextArrival = snapshot.val().nextArr;
+            minAway = snapshot.val().minutesAway;
+            arrTrack = snapshot.val().track;
 
 
-    database.ref("trains").on("child_added", function (snapshot) {
-        trainName = snapshot.val().trainName;
-        destination = snapshot.val().destination;
-        freqInMin = snapshot.val().frequency;
-        nextArrival = snapshot.val().nextArr;
-        minAway = snapshot.val().minutesAway;
-        arrTrack = snapshot.val().track;
+            // Create new row in train schedule
+            let trainRow = $("<tr>").append(
+                $("<td>").text(trainName),
+                $("<td>").text(destination),
+                $("<td>").text(freqInMin),
+                $("<td>").text(nextArrival),
+                $("<td>").text(minAway),
+                $("<td>").text(arrTrack)
+            );
 
+            // Append the new row to the table
+            $("#train-table > tbody").append(trainRow);
 
-        // Create new row in train schedule
-        let trainRow = $("<tr>").append(
-            $("<td>").text(trainName),
-            $("<td>").text(destination),
-            $("<td>").text(freqInMin),
-            $("<td>").text(nextArrival),
-            $("<td>").text(minAway),
-            $("<td>").text(arrTrack)
-        );
-
-        // Append the new row to the table
-        $("#train-table > tbody").append(trainRow);
-
-        // Handle the errors
-    },
-        function (errorObject) {
+            // Handle the errors
+        }, function (errorObject) {
             console.log("Errors handled: " + errorObject.code);
+
         });
+
 });
