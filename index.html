@@ -75,30 +75,32 @@
                         <div class="card-body">
 
                             <!-- Entry Form -->
-                            <form>
+                            <form novalidate>
                                 <div class="form-group">
                                     <label for="train-name-input">Train Name</label>
-                                    <input class="form-control" type="text" id="train-name" required autofocus>
-                                    <span class="error" aria-live="polite"></span>
+                                    <input class="form-control" type="text" id="train-name" autofocus>
+                                    <span id="trainNameError" aria-live="polite"></span>
+
                                 </div>
                                 <div class="form-group">
                                     <label for="destination-input">Destination</label>
-                                    <input class="form-control" id="destination" type="text" required>
-                                    <span class="error" aria-live="polite"></span>
+                                    <input class="form-control" id="destination" type="text">
+                                    <span id="destinationError" aria-live="polite"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="first-train-input">First Train(HH:MM - military time)</label>
-                                    <input class="form-control" id="first-train" type="text" maxlength="5" required>
-                                    <span class="error" aria-live="polite"></span>
+                                    <input class="form-control" id="first-train" type="text" maxlength="5">
+                                    <span id="firstTrainError" aria-live="polite"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="frequency-input">Frequency(in minutes)</label>
-                                    <input class="form-control" id="frequency" type="number" min="1" required>
-                                    <span class="error" aria-live="polite"></span>
+                                    <input class="form-control" id="frequency" type="number" min="1">
+                                    <span id="frequencyError" aria-live="polite"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="track-input">Track #</label>
                                     <input class="form-control" id="trackNo" type="number" min="1">
+                                    <span id="trackError" aria-live="polite"></span>
                                 </div>
                                 <button class="btn btn-primary float-right" id="submit-train">Submit</button>
                             </form>

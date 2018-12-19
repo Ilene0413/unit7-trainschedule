@@ -16,7 +16,7 @@
     <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 
     <!-- Moment.js Reference -->
- <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script> -->
+    <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
     <!--  <style>
@@ -78,24 +78,25 @@
                             <form>
                                 <div class="form-group">
                                     <label for="train-name-input">Train Name</label>
-                                    <input class="form-control" id="train-name" type="text" required>
+                                    <input class="form-control" type="text" id="train-name" required autofocus>
                                 </div>
                                 <div class="form-group">
                                     <label for="destination-input">Destination</label>
                                     <input class="form-control" id="destination" type="text" required>
                                 </div>
                                 <div class="form-group">
-                                        <label for="first-train-input">First Train(HH:MM - military time)</label>
-                                <input class="form-control" id="first-train" type="text" maxlength="5" required>
-
-                                    </div>
+                                    <label for="first-train-input">First Train(HH:MM - military time)</label>
+                                    <input class="form-control" id="first-train" type="text" maxlength="5" required>
+                                    <span id="firstTrainError" aria-live="polite"></span>
+                                </div>
                                 <div class="form-group">
                                     <label for="frequency-input">Frequency(in minutes)</label>
-                                    <input class="form-control" id="frequency" type="number" min="1" max="1440" required>
+                                    <input class="form-control" id="frequency" type="number" min="1" required>
+                                    <span class="error" aria-live="polite"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="track-input">Track #</label>
-                                    <input class="form-control" id="trackNo" type="number" min="1" required>
+                                    <input class="form-control" id="trackNo" type="number" min="1">
                                 </div>
                                 <button class="btn btn-primary float-right" id="submit-train">Submit</button>
                             </form>
