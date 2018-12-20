@@ -42,8 +42,7 @@ $(document).ready(function () {
         track: 0
     };
 
-    // check that all required fields are entered 
-
+    
     $("#submit-train").on("click", function (event) {
         event.preventDefault();
 
@@ -63,6 +62,7 @@ $(document).ready(function () {
             errorMsg = "Please Enter Train Name";
             document.getElementById("trainNameError").innerHTML = errorMsg;
             validform = false;
+           
         }
         else {
             clearErrMsg("trainNameError");
@@ -73,6 +73,7 @@ $(document).ready(function () {
             errorMsg = "Please Enter Destination";
             document.getElementById("destinationError").innerHTML = errorMsg;
             validform = false;
+           
         }
         else {
             clearErrMsg("destinationError");
@@ -175,6 +176,8 @@ $(document).ready(function () {
 
     });
 // retrive data from firebae
+//put time on header bar
+document.getElementById("header-time").innerHTML=moment().format("MM/DD/YYYY hh:mm A");
 
     database.ref("trains").on("child_added", function (snapshot) {
         trainName = snapshot.val().trainName;
@@ -191,6 +194,7 @@ $(document).ready(function () {
             let trainRow = $("<tr>").append(
                 $("<td>").text(trainName),
                 $("<td>").text(destination),
+                $("<td>").text(freqInMin),
                 $("<td>").text(nextArrival),
                 $("<td>").text(minAway),
                 $("<td>").text(arrTrack)

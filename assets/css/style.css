@@ -14,36 +14,27 @@
  
  body {
      font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
-     color: darkblue;
-     background-image: url("../images/disney-background.jpg"); 
-     border: #dddddd;
+     color: black;
+     background-color: beige;
      width: 1020px; 
      margin: auto;
    
-         }
+         } **/
  
  
- /** 
-     * Main header style
- **/
- 
- #mainheader {
-     font-family: Verdana, Geneva, Tahoma, sans-serif ;
-    font-size: 80px;
-     text-align: center;
-     color: blue;
-     text-shadow: 15px 15px 20px darkblue;
-     margin-top: 0px;
-        }
- 
- .para {
-     line-height: 70%;
-     margin-top:10px;
- }
- #disney-form {
-     font-size: 20px;
- }
- #imgStyle {
-     width: 250px;
-     height: 250px;
- }
+/** put time on right side of page **/
+   .time {
+       float: right;
+   }
+
+/** apply to error message **/
+.error {
+    color: red
+}
+
+/** size pictures **/
+.trainPicture {
+    width: 300px;
+    height: 200px;
+
+}
