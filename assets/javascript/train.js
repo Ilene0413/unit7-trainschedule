@@ -27,11 +27,11 @@ $(document).ready(function () {
     let minAway = 0;
     let arrTrack = 0;
     let isItMilitary;
-    let timeOfTrain;
+    let timeTrain;
     let currentTime;
     let validform = true;
     let errormsg;
-
+    let minToTrain;
     let trainObj = {
         trainName: "",
         destination: "",
@@ -42,7 +42,7 @@ $(document).ready(function () {
         track: 0
     };
 
-    // check that all required fields are entered before submit
+    // check that all required fields are entered 
 
     $("#submit-train").on("click", function (event) {
         event.preventDefault();
@@ -81,7 +81,7 @@ $(document).ready(function () {
         //check to see that first-train is a valid military time between 00:00 - 23:59
         //note max text size of first-train is 5, therefore position 3 should be a "":"
 
-        let timeTrain = moment(firstTrain, "HH:mm");
+        timeTrain = moment(firstTrain, "HH:mm");
         let militChar = firstTrain.charAt(2);
         errorMsg = "Invalid - time must be entered in military time";
         if (militChar !== ":") {
@@ -102,6 +102,7 @@ $(document).ready(function () {
                 }
                 else {
                     clearErrMsg("firstTrainError");
+
                 }
             }
         }
@@ -126,24 +127,35 @@ $(document).ready(function () {
         else {
             clearErrMsg("trackError");
         }
+// if all entries are valid, determine next arrival time and number of minutes away
+// push to firebase
 
         if (validform) {
-            timeOfTrain = moment(firstTrain, "HH:mm").subtract(1, "years");
-            console.log("time of first train " + moment(timeOfTrain).format("hh:mm"));
-            currentTime = moment(currentTime);
-            console.log("current " + moment(currentTime).format("hh:mm"));
-            let diffTime = moment().diff(moment(timeOfTrain, "minutes"));
-            console.log(moment(diffTime).format("hh:mm"));
+            timeTrain = moment(firstTrain, "HH:mm");
+            currentTime = moment();
+            let diffTime = moment().diff(moment(timeTrain, "minutes"));
             let tRemainder = diffTime % freqInMin;
-            console.log("remainder " + tRemainder);
-            let minToTrain = freqInMin - tRemainder;
-            console.log("min to train " + minToTrain);
-            //if (moment(currentTime) < timeOfTrain)
-            //  timeOfNextTrain = moment(timeOfTrain).add(minToTrain, "minutes");
+
+            // determine if first train time is after current time
+            // to determine how many minutes away and next arrival time
+
+            if (timeTrain > currentTime) {
+                minToTrain = moment(timeTrain).diff(moment(), "minutes");
+                timeOfNextTrain = moment(timeTrain).format("hh:mm A");
+            }
+            else {
+                minToTrain = freqInMin - tRemainder;
+                timeOfNextTrain = moment().add(minToTrain, "minutes").format("h:mm A");
+            }
+
+            //set values of train to be pushed to firebase
+
             trainObj.trainName = trainName;
             trainObj.destination = destination;
             trainObj.frequency = freqInMin;
             trainObj.firstTrain = firstTrain;
+            trainObj.minutesAway = minToTrain;
+            trainObj.nextArr = timeOfNextTrain;
             trainObj.track = arrTrack;
 
 
@@ -162,6 +174,7 @@ $(document).ready(function () {
         }
 
     });
+// retrive data from firebae
 
     database.ref("trains").on("child_added", function (snapshot) {
         trainName = snapshot.val().trainName;
@@ -173,18 +186,20 @@ $(document).ready(function () {
 
 
         // Create new row in train schedule
-        let trainRow = $("<tr>").append(
-            $("<td>").text(trainName),
-            $("<td>").text(destination),
-            $("<td>").text(freqInMin),
-            $("<td>").text(nextArrival),
-            $("<td>").text(minAway),
-            $("<td>").text(arrTrack)
-        );
+        //only create row if train is scheduled to arrive within 30 minutes
+        if (minAway <= 30) {
+            let trainRow = $("<tr>").append(
+                $("<td>").text(trainName),
+                $("<td>").text(destination),
+                $("<td>").text(nextArrival),
+                $("<td>").text(minAway),
+                $("<td>").text(arrTrack)
+            );
 
-        // Append the new row to the table
-        $("#train-table > tbody").append(trainRow);
 
+            // Append the new row to the table
+            $("#train-table > tbody").append(trainRow);
+        }
         // Handle the errors
     }, function (errorObject) {
         console.log("Errors handled: " + errorObject.code);
@@ -198,15 +213,4 @@ $(document).ready(function () {
         document.getElementById(idName).innerHTML = errorMsg;
 
     }
-    function checkForE() {
-        onKeyPress = event.keyCode;
-        if (onKeyPress == "e") {
-            errorMsg = "Please Enter Frequency - must be at least 1";
-            document.getElementById("frequencyError").innerHTML = errorMsg;
-            validform = false;
-            onKeyPress = "";
-
-        }
-    }
-
 });
