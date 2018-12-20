@@ -38,3 +38,7 @@
     height: 200px;
 
 }
+/** highlight input box when entering data **/
+input:focus {
+  background-color: yellow;
+}
