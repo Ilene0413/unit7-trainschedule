@@ -238,7 +238,7 @@ $(document).ready(function () {
                 let trainRow = $("<tr>").append(
                     $("<td>").text(trainName),
                     $("<td>").text(destination),
-                    $("<td>").text(freqInMin),
+            //        $("<td>").text(freqInMin),
                     $("<td>").text(timeOfNextTrain),
                     $("<td>").text(minToTrain),
                     $("<td>").text(arrTrack),
