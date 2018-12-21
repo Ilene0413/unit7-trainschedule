@@ -12,6 +12,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+ <!-- point to css file-->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
     <!-- Firebase Reference -->
     <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 
@@ -36,29 +39,34 @@
         <!-- Jumbotron -->
         <div class="jumbotron mt-5 mb-5" style="background-color: maroon; color: linen">
             <h1 class="text-center">Never Late Trains</h1>
-            <h3 class="text-center">Trains Are Always on Time</h3>
+            <h3 class="text-center">Trains Are Guaranteed to Always be on Time!</h3>
         </div>
-
+        <div class="row">
+            <div class="col-md-12">
+                <img class="trainPicture"; src="assets/images/on-time.jpg" alt = "ontime";>
+            </div>
+        </div>
+        
         <div class="row">
 
             <div class="col-md-12">
 
                 <!-- Current Train Schedule-->
-                <div class="card mt-2 mb-2">
-                    <div class="card-header">Current Train Schedule</div>
+            <div class="card mt-4 mb-4">
+                <div class="card-header bg-info text-white">Current Train Schedule<span class="time" id="header-time"></span></div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table thead-light" id='train-table'>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Train Name</th>
-                                        <th scope="col">Destination</th>
-                                        <th scope="col">Frequency(min)</th>
-                                        <th scope="col">Next Arrival</th>
-                                        <th scope="col">Minutes Away</th>
-                                        <th scope="col">Track #</th>
-                                    </tr>
-                                </thead>
+                            <table class="table table-striped" id='train-table'>
+                                   <thead>
+                                      <tr>
+                                            <th scope="col">Train Name</th>
+                                            <th scope="col">Destination</th>
+                                            <th scope="col">Frequency(min)</th>
+                                            <th scope="col">Next Arrival</th>
+                                            <th scope="col">Minutes Away</th>
+                                            <th scope="col">Track #</th>
+                                        </tr>
+                                    </thead>
                                 <tbody>
                                 </tbody>
                             </table>
@@ -66,50 +74,58 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
                     <!-- Add Train  -->
-                    <div class="card mt-2 mb-2">
-                        <div class="card-header">Add Train</div>
-                        <div class="card-body">
-
+                    <div class="card mt-4 mb-4">
+                        <div class="card-header bg-info text-white">Add Train</div>
+                            <div class="card-body">
+                                 <div class="table-responsive">
                             <!-- Entry Form -->
-                            <form>
-                                <div class="form-group">
-                                    <label for="train-name-input">Train Name</label>
-                                    <input class="form-control" type="text" id="train-name" required autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <label for="destination-input">Destination</label>
-                                    <input class="form-control" id="destination" type="text" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="first-train-input">First Train(HH:MM - military time)</label>
-                                    <input class="form-control" id="first-train" type="text" maxlength="5" required>
-                                    <span id="firstTrainError" aria-live="polite"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="frequency-input">Frequency(in minutes)</label>
-                                    <input class="form-control" id="frequency" type="number" min="1" required>
-                                    <span class="error" aria-live="polite"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="track-input">Track #</label>
-                                    <input class="form-control" id="trackNo" type="number" min="1">
-                                </div>
-                                <button class="btn btn-primary float-right" id="submit-train">Submit</button>
-                            </form>
+                                     <form novalidate>
+                                        <div class="form-group">
+                                            <label for="train-name-input">Train Name</label>
+                                            <input class="form-control" type="text" id="train-name" autofocus>
+                                            <span class="error" id="trainNameError" aria-live="polite"></span>
 
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="destination-input">Destination</label>
+                                            <input class="form-control" id="destination" type="text">
+                                            <span class="error" id="destinationError" aria-live="polite"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="first-train-input">First Train(HH:MM - military time)</label>
+                                            <input class="form-control" id="first-train" type="text" maxlength="5">
+                                            <span class="error"id="firstTrainError" aria-live="polite"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="frequency-input">Frequency(in minutes)</label>
+                                            <input class="form-control" id="frequency" type="number" min="1">
+                                            <span class="error" id="frequencyError" aria-live="polite"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="track-input">Track #</label>
+                                            <input class="form-control" id="trackNo" type="number" min="1">
+                                            <span class="error" id="trackError" aria-live="polite"></span>
+                                        </div>
+                                        <button class="btn btn-primary float-right" id="submit-train">Submit</button>
+                                    </form>
+                                </div>
                         </div>
                     </div>
                 </div>
             </div>
 
         </div>
-
+        <div class="row">
+            <div class="col-md-12">
+                <img class="trainPicture"; src="assets/images/never-late.png" alt = "never late";>
+            </div>
+        </div>
         <!-- JavaScript -->
-        <script src="assets/javascript/train.js"> </script>
+        <script src="assets/javascript/train2.js"> </script>
 
 </body>
 
