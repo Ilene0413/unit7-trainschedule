@@ -1,4 +1,5 @@
 # unit7-trainschedule
+https://ilene0413.github.io/unit7-trainschedule/
 Display the train schedule and updates the next arrival time and minutes to arrival every minute
 input data in the form
 All input data is validated - user must enter train name, destination, first time arrival, frequency
